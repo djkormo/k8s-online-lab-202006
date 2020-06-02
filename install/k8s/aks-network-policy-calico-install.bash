@@ -3,10 +3,10 @@
 RESOURCE_GROUP_NAME=rg-aks-simple
 CLUSTER_NAME=aks-simple2020
 LOCATION=northeurope
+# 16.9 version in 2020.06.02 day ;-)
+AKS_VERSION=$(az aks get-versions -l $LOCATION --query 'orchestrators[-5].orchestratorVersion' -o tsv)
 
-AKS_VERSION=$(az aks get-versions -l $LOCATION --query 'orchestrators[-1].orchestratorVersion' -o tsv)
-
-AKS_NODES=2
+AKS_NODES=3
 AKS_VM_SIZE=Standard_B2s
 
 
