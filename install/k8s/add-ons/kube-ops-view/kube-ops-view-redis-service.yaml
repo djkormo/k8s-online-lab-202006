@@ -1,14 +1,14 @@
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
   labels:
     application: kube-ops-view-redis
-  name:  kube-ops-view-redis
+  name: kube-ops-view-redis
 spec:
   selector:
-      application: kube-ops-view
-  type:   ClusterIP
+    application: kube-ops-view-redis
+  type: ClusterIP
   ports:
-  - name:  redis
-    port:  6379
-    targetPort:  6379
+  - port: 6379
+    protocol: TCP
+    targetPort: 6379
