@@ -1,0 +1,43 @@
+apiVersion: networking.k8s.io/v1beta1 # for versions before 1.14 use extensions/v1beta1
+kind: Ingress
+metadata:
+  name: hello-world-ingress
+  namespace: monitoring
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    #nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: kube-ops-view
+          servicePort: 80
+        path: /
+      - backend:
+          serviceName: myprometheus-server 
+          servicePort: 80
+        path: /prom  
+      - backend:
+          serviceName: mygrafana
+          servicePort: 4444
+        path: /login 
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ops-ingress
+  namespace: monitoring
+  annotations:
+    #nginx.org/server-snippet: "proxy_ssl_verify off;"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  rules:
+  - host: 20.54.9.79
+    http:
+      paths:
+      - path: /prometheus(/|$)(.*)
+        backend:
+          serviceName: myprometheus-server
+          servicePort: 80
