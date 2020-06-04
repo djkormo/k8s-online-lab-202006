@@ -13,9 +13,19 @@ helm install myingress stable/nginx-ingress \
     --set controller.nodeSelector."beta\.kubernetes\.io/os"=linux \
     --set defaultBackend.nodeSelector."beta\.kubernetes\.io/os"=linux
 
+
+helm install nginx-ingress stable/nginx-ingress \
+    --namespace ingress \
+    --set controller.replicaCount=2 \
+    --set controller.nodeSelector."beta\.kubernetes\.io/os"=linux \
+    --set defaultBackend.nodeSelector."beta\.kubernetes\.io/os"=linux \
+    #--set controller.service.loadBalancerIP="STATIC_IP" \
+    --set controller.service.annotations."service\.beta\.kubernetes\.io/azure-dns-label-name"="demo-aks-ingress"
+
 helm list -n ingress    
 
 kubectl get all -n ingress
+
 
 
 
