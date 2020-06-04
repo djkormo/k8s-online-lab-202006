@@ -58,3 +58,8 @@ az aks create \
     --service-principal $SP_ID \
     --client-secret $SP_PASSWORD \
     --network-policy calico
+
+
+RG_VM_POOL=$(az aks show -g $RESOURCE_GROUP_NAME -n $CLUSTER_NAME --query nodeResourceGroup -o tsv)
+echo $RG_VM_POOL
+az network public-ip create --resource-group $RG_VM_POOL --name myIngressPublicIP --sku Standard --allocation-method static --query publicIp.ipAddress -o tsv
