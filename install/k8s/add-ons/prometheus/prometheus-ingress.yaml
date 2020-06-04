@@ -34,7 +34,7 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   rules:
-  - host: 20.54.9.79
+  - host: myingress.northeurope.cloudapp.azure.com
     http:
       paths:
       - path: /prometheus(/|$)(.*)
