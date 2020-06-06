@@ -1,27 +1,22 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: wordsmith-ingress
+  name: kubeviewops-ingress
   annotations:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
-    #nginx.ingress.kubernetes.io/rewrite-target: /dashboard
-    nginx.ingress.kubernetes.io/app-root: /app1
+    nginx.ingress.kubernetes.io/rewrite-target: /$0
 spec:
   tls:
   - hosts:
     - myingress.northeurope.cloudapp.azure.com
     secretName: tls-secret
   rules:
-  - host: myingress.northeurope.cloudapp.azure.com
-    http:
+  - http:
       paths:
-      - backend:
+      - path: /
+        #pathType: Prefix
+        backend:
           serviceName: kube-ops-view
           servicePort: 80
-        path: /
-      #- backend:
-      #   serviceName: ingress-demo
-      #    servicePort: 80
-      #  path: /hello-world-two(/|$)(.*)
