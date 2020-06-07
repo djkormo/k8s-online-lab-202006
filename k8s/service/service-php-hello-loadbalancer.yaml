@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: php-hello-loadbalancer
+  labels:
+    role: web
+spec:
+  selector:
+    role: web
+  ports:
+    - port: 80
+      targetPort: 80
+  type: LoadBalancer

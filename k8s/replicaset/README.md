@@ -1,168 +1,205 @@
 
 Making application high available with Replication Controllers
 
-If you are not running a monitoring screen, start it in a new terminal with the following command.
+
+```bash
+kubectl create namespace rs
 ```
-watch -n 1 kubectl get  pod,deploy,rs,svc
+<pre>
+namespace/rs created
+</pre>
 
-kubectl delete pod vote
+
+```bash
+kubectl config set-context --current --namespace=rs
 ```
-Setting up a Namespace
+<pre>
+Context "aks-simple2020" modified.
+</pre>
 
-Check current config
-
+```bash
+kubectl create -f replicaset-php.yaml
 ```
-kubectl config view
-```
-You could also examine the current configs in file cat ~/.kube/config
-Creating a namespace
 
-Namespaces offers separation of resources running on the same physical infrastructure into virtual clusters. It is typically useful in mid to large scale environments with multiple projects, teams and need separate scopes. It could also be useful to map to your workflow stages e.g. dev, stage, prod.
+<pre>
+replicaset.apps/php-hello created
+</pre>
 
-Lets create a namespace called instavote
-
-cd projects/instavote
-cat instavote-ns.yaml
-
-[output]
-
-kind: Namespace
-apiVersion: v1
-metadata:
-  name: instavote
-
-Lets create a namespace
-```
-kubectl get ns
-kubectl apply -f instavote-ns.yaml
-
-kubectl get ns
-```
-And switch to it
-```
-kubectl config --help
-
-kubectl config get-contexts
-
-kubectl config current-context
-
-kubectl config set-context $(kubectl config current-context) --namespace=instavote
-
-kubectl config view
-
-kubectl config get-contexts
-```
-Exercise: Go back to the monitoring screen and observe what happens after switching the namespace.
-
-To understand how ReplicaSets works with the selectors lets launch a pod in the new namespace with existing specs.
-```
-cd k8s-code/pods
-kubectl apply -f vote-pod.yaml
-```
-```
-kubectl get pods
-cd ../projects/instavote/dev/
-```
-Lets now write the spec for the Rplica Set. This is going to mainly contain,
-
-    replicas
-    selector
-    template (pod spec )
-    minReadySeconds
-
-file: vote-rs.yaml
-```yaml
-apiVersion: apps/v1
-kind: ReplicaSet
-metadata:
-  name: vote
-spec:
-  replicas: 5
-  minReadySeconds: 20
-  selector:
-    matchLabels:
-      role: vote
-    matchExpressions:
-      - {key: version, operator: In, values: [v1, v2, v3]}
-  template:
-```
-Lets now add the metadata and spec from pod spec defined in vote-pod.yaml. And with that, the Replica Set Spec changes to
-
-file: vote-rs.yaml
-```yaml
-apiVersion: apps/v1
-kind: ReplicaSet
-metadata:
-  name: vote
-spec:
-  replicas: 5
-  minReadySeconds: 20
-  selector:
-    matchLabels:
-      role: vote
-    matchExpressions:
-      - {key: version, operator: In, values: [v1, v2, v3]}
-  template:
-    metadata:
-      name: vote
-      labels:
-        app: python
-        role: vote
-        version: v1
-    spec:
-      containers:
-        - name: app
-          image: schoolofdevops/vote:v1
-          ports:
-            - containerPort: 80
-              protocol: TCP
-```
-Replica Sets in Action
-```
-kubectl apply -f vote-rs.yaml --dry-run
-
-kubectl apply -f vote-rs.yaml
-
+```bash
 kubectl get rs
-
-kubectl describe rs vote
-
-kubectl get pods
 ```
 
-Exercise :
+<pre>
+NAME        DESIRED   CURRENT   READY   AGE
+php-hello   5         5         5       7s 
+</pre>
 
-    Switch to monitoring screen, observe how many replicas were created and why
-    Compare selectors and labels of the pods created with and without replica sets
+```bash
+kubectl describe rs php-hello
 ```
-kubectl get pods
+<pre>
+Name:         php-hello
+Namespace:    rs
+Selector:     role=web,version in (v1,v2,v3)
+Labels:       <none>
+Annotations:  <none>
+Replicas:     5 current / 5 desired
+Pods Status:  5 Running / 0 Waiting / 0 Succeeded / 0 Failed
+Pod Template:
+  Labels:  app=php-hello
+           role=web
+           version=v1
+  Containers:
+   php-hello:
+    Image:      djkormo/php-hello:v1
+    Port:       80/TCP
+    Host Port:  0/TCP
+    Environment:
+      VERSION:  1.0
+    Mounts:     <none>
+  Volumes:      <none>
+Events:
+  Type    Reason            Age   From                   Message
+  ----    ------            ----  ----                   -------
+  Normal  SuccessfulCreate  32s   replicaset-controller  Created pod: php-hello-nqw6k
+  Normal  SuccessfulCreate  32s   replicaset-controller  Created pod: php-hello-44hn4
+  Normal  SuccessfulCreate  32s   replicaset-controller  Created pod: php-hello-2nr8b
+  Normal  SuccessfulCreate  32s   replicaset-controller  Created pod: php-hello-zh55r
+  Normal  SuccessfulCreate  32s   replicaset-controller  Created pod: php-hello-6bl2z
+</pre>
 
+```bash
+kubectl get all 
+```
+<pre>
+NAME                  READY   STATUS    RESTARTS   AGE
+pod/php-hello-2nr8b   1/1     Running   0          51s
+pod/php-hello-44hn4   1/1     Running   0          51s
+pod/php-hello-6bl2z   1/1     Running   0          51s
+pod/php-hello-nqw6k   1/1     Running   0          51s
+pod/php-hello-zh55r   1/1     Running   0          51s
+
+NAME                        DESIRED   CURRENT   READY   AGE
+replicaset.apps/php-hello   5         5         5       51s
+</pre>
+
+```bash
 kubectl get pods --show-labels
 ```
-Exercise: Deploying new version of the application
-```
-kubectl edit rs/vote
+<pre>
+NAME              READY   STATUS    RESTARTS   AGE   LABELS
+php-hello-2nr8b   1/1     Running   0          84s   app=php-hello,role=web,version=v1
+php-hello-44hn4   1/1     Running   0          84s   app=php-hello,role=web,version=v1
+php-hello-6bl2z   1/1     Running   0          84s   app=php-hello,role=web,version=v1
+php-hello-nqw6k   1/1     Running   0          84s   app=php-hello,role=web,version=v1
+php-hello-zh55r   1/1     Running   0          84s   app=php-hello,role=web,version=v1
+</pre>
 
-Update the version of the image from schoolofdevops/vote:v1 to schoolofdevops/vote:v2
-```
-Save the file. Observe if application got updated. Note what do you observe. Do you see the new version deployed ??
-Exercise: Self Healing Replica Sets
+kubectl edit rs/php-hello
 
-List the pods and kill some of those, see what replica set does.
-```
-kubectl get pods
-kubectl delete pods  vote-xxxx  vote-yyyy
-```
-where replace xxxx and yyyy with actual pod ids.
 
-Questions:
-
-    Did replica set replaced the pods ?
-    Which version of the application is running now ?
-
-Lets now delete the pod created independent of replica set.
+```bash
+kubectl apply -f replicaset-php-2.yaml
 ```
-kubectl get pods
-kubectl delete pods  vote
+<pre>
+replicaset.apps/php-hello-2 created
+</pre>
+
+```bash
+kubectl get rs
 ```
-Observe what happens. * Does replica set take any action after deleting the pod created outside of its spec ? Why?
+<pre>
+NAME          DESIRED   CURRENT   READY   AGE
+php-hello     5         5         5       45m
+php-hello-2   5         5         5       37s
+</pre>
+
+```bash
+kubectl apply -f replicaset-php-3.yaml
+```
+
+<pre>
+replicaset.apps/php-hello-3 created
+</pre>
+
+
+```bash
+kubectl get rs
+```
+<pre>
+NAME          DESIRED   CURRENT   READY   AGE
+php-hello     5         5         5       48m
+php-hello-2   5         5         5       3m18s
+php-hello-3   5         5         5       92s
+</pre>
+
+```bash
+kubectl get pods --show-labels  
+```
+<pre>
+NAME                READY   STATUS    RESTARTS   AGE     LABELS
+php-hello-2-66m98   1/1     Running   0          4m52s   app=php-hello,role=web,version=v2
+php-hello-2-8q478   1/1     Running   0          4m52s   app=php-hello,role=web,version=v2
+php-hello-2-d7hn5   1/1     Running   0          4m52s   app=php-hello,role=web,version=v2
+php-hello-2-hjxxg   1/1     Running   0          4m52s   app=php-hello,role=web,version=v2
+php-hello-2-wr4h2   1/1     Running   0          4m52s   app=php-hello,role=web,version=v2
+php-hello-3-c89ht   1/1     Running   0          3m6s    app=php-hello,role=web,version=v3
+php-hello-3-dmn62   1/1     Running   0          3m6s    app=php-hello,role=web,version=v3
+php-hello-3-fdqgg   1/1     Running   0          3m6s    app=php-hello,role=web,version=v3
+php-hello-3-nvzcf   1/1     Running   0          3m6s    app=php-hello,role=web,version=v3
+php-hello-3-qtv85   1/1     Running   0          3m6s    app=php-hello,role=web,version=v3
+php-hello-92r48     1/1     Running   0          49m     app=php-hello,role=web,version=v1
+php-hello-bx2xc     1/1     Running   0          49m     app=php-hello,role=web,version=v1
+php-hello-g5d96     1/1     Running   0          49m     app=php-hello,role=web,version=v1
+php-hello-lvg2w     1/1     Running   0          49m     app=php-hello,role=web,version=v1
+php-hello-zg28m     1/1     Running   0          49m     app=php-hello,role=web,version=v1
+</pre>
+
+```bash
+kubectl scale rs/php-hello  --replicas=3
+kubectl scale rs/php-hello-2  --replicas=4
+```
+<pre>
+replicaset.apps/php-hello scaled
+replicaset.apps/php-hello-2 scaled
+</pre>
+
+```bash
+kubectl get rs
+```
+<pre>
+NAME          DESIRED   CURRENT   READY   AGE
+php-hello     3         3         3       52m
+php-hello-2   4         4         4       7m42s
+php-hello-3   5         5         5       5m56s
+</pre>
+
+How to remove pods without definition ?
+
+```
+kubectl scale rs/php-hello-3  --replicas=0
+```
+<pre>
+replicaset.apps/php-hello-3 scaled
+</pre>
+
+```bash
+kubectl get rs 
+```
+<pre>
+NAME          DESIRED   CURRENT   READY   AGE
+php-hello     3         3         3       2m21s
+php-hello-2   4         4         4       2m3s
+php-hello-3   0         0         0       109s
+</pre>
+
+Cleaning up resources
+
+```bash
+kubectl delete ns rs
+```
+<pre>
+namespace "rs" deleted
+</pre>
+
+

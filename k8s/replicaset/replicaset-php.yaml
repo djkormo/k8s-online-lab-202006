@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: php-hello
+spec:
+  replicas: 5
+  minReadySeconds: 20
+  selector:
+    matchLabels:
+      role: web
+    matchExpressions:
+      - {key: version, operator: In, values: [v1, v2, v3]}
+  template:
+    metadata:
+      name: php-hello
+      labels:
+        app: php-hello
+        role: web
+        version: v1
+    spec:
+      containers:
+        - name: php-hello
+          image: djkormo/php-hello:v1
+          env:
+          - name: VERSION
+            value: "1.0"
+          ports:
+            - containerPort: 80
+              protocol: TCP
