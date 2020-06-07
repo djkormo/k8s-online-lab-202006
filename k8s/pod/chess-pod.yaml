@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: chess
+  labels:
+    name: chess
+spec:
+  containers:
+  - name: chess
+    image: djkormo/chess-ai
+    ports:
+      - containerPort: 80

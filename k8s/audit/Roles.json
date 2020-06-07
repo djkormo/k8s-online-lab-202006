@@ -1,0 +1,724 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "rbac.authorization.k8s.io/v1",
+            "kind": "Role",
+            "metadata": {
+                "creationTimestamp": "2020-06-04T18:41:32Z",
+                "labels": {
+                    "app": "nginx-ingress",
+                    "chart": "nginx-ingress-1.39.1",
+                    "heritage": "Helm",
+                    "release": "nginx-ingress"
+                },
+                "name": "nginx-ingress",
+                "namespace": "ingress",
+                "resourceVersion": "2082",
+                "selfLink": "/apis/rbac.authorization.k8s.io/v1/namespaces/ingress/roles/nginx-ingress",
+                "uid": "99797959-e22c-4be4-87b6-f1d0aa92b9ef"
+            },
+            "rules": [
+                {
+                    "apiGroups": [
+                        ""
+                    ],
+                    "resources": [
+                        "namespaces"
+                    ],
+                    "verbs": [
+                        "get"
+                    ]
+                },
+                {
+                    "apiGroups": [
+                        ""
+                    ],
+                    "resources": [
+                        "configmaps",
+                        "pods",
+                        "secrets",
+                        "endpoints"
+                    ],
+                    "verbs": [
+                        "get",
+                        "list",
+                        "watch"
+                    ]
+                },
+                {
+                    "apiGroups": [
+                        ""
+                    ],
+                    "resources": [
+                        "services"
+                    ],
+                    "verbs": [
+                        "get",
+                        "list",
+                        "update",
+                        "watch"
+                    ]
+                },
+                {
+                    "apiGroups": [
+                        "extensions",
+                        "networking.k8s.io"
+                    ],
+                    "resources": [
+                        "ingresses"
+                    ],
+                    "verbs": [
+                        "get",
+                        "list",
+                        "watch"
+                    ]
+                },
+                {
+                    "apiGroups": [
+                        "extensions",
+                        "networking.k8s.io"
+                    ],
+                    "resources": [
+                        "ingresses/status"
+                    ],
+                    "verbs": [
+                        "update"
+                    ]
+                },
+                {
+                    "apiGroups": [
+                        ""
+                    ],
+                    "resourceNames": [
+                        "ingress-controller-leader-nginx"
+                    ],
+                    "resources": [
+                        "configmaps"
+                    ],
+                    "verbs": [
+                        "get",
+                        "update"
+                    ]
+                },
+                {
+                    "apiGroups": [
+                        ""
+                    ],
+                    "resources": [
+                        "configmaps"
+                    ],
+                    "verbs": [
+                        "create"
+                    ]
+                },
+                {
+                    "apiGroups": [
+                        ""
+                    ],
+                    "resources": [
+                        "endpoints"
+                    ],
+                    "verbs": [
+                        "create",
+                        "get",
+                        "update"
+                    ]
+                },
+                {
+                    "apiGroups": [
+                        ""
+                    ],
+                    "resources": [
+                        "events"
+                    ],
+                    "verbs": [
+                        "create",
+                        "patch"
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "rbac.authorization.k8s.io/v1",
+            "kind": "Role",
+            "metadata": {
+                "annotations": {
+                    "rbac.authorization.kubernetes.io/autoupdate": "true"
+                },
+                "creationTimestamp": "2020-06-04T18:27:20Z",
+                "labels": {
+                    "kubernetes.io/bootstrapping": "rbac-defaults"
+                },
+                "name": "system:controller:bootstrap-signer",
+                "namespace": "kube-public",
+                "resourceVersion": "136",
+                "selfLink": "/apis/rbac.authorization.k8s.io/v1/namespaces/kube-public/roles/system:controller:bootstrap-signer",
+                "uid": "4a14aec9-3bd7-4d92-a57f-3ba837bd1b06"
+            },
+            "rules": [
+                {
+                    "apiGroups": [
+                        ""
+                    ],
+                    "resources": [
+                        "configmaps"
+                    ],
+                    "verbs": [
+                        "get",
+                        "list",
+                        "watch"
+                    ]
+                },
+                {
+                    "apiGroups": [
+                        ""
+                    ],
+                    "resourceNames": [
+                        "cluster-info"
+                    ],
+                    "resources": [
+                        "configmaps"
+                    ],
+                    "verbs": [
+                        "update"
+                    ]
+                },
+                {
+                    "apiGroups": [
+                        "",
+                        "events.k8s.io"
+                    ],
+                    "resources": [
+                        "events"
+                    ],
+                    "verbs": [
+                        "create",
+                        "patch",
+                        "update"
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "rbac.authorization.k8s.io/v1",
+            "kind": "Role",
+            "metadata": {
+                "creationTimestamp": "2020-06-04T18:44:30Z",
+                "labels": {
+                    "app": "cainjector",
+                    "app.kubernetes.io/instance": "cert-manager",
+                    "app.kubernetes.io/managed-by": "Helm",
+                    "app.kubernetes.io/name": "cainjector",
+                    "helm.sh/chart": "cert-manager-v0.13.0"
+                },
+                "name": "cert-manager-cainjector:leaderelection",
+                "namespace": "kube-system",
+                "resourceVersion": "2496",
+                "selfLink": "/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/roles/cert-manager-cainjector:leaderelection",
+                "uid": "ab03ea08-98ed-48ad-affa-d895af05f2af"
+            },
+            "rules": [
+                {
+                    "apiGroups": [
+                        ""
+                    ],
+                    "resources": [
+                        "configmaps"
+                    ],
+                    "verbs": [
+                        "get",
+                        "create",
+                        "update",
+                        "patch"
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "rbac.authorization.k8s.io/v1",
+            "kind": "Role",
+            "metadata": {
+                "creationTimestamp": "2020-06-04T18:44:30Z",
+                "labels": {
+                    "app": "cert-manager",
+                    "app.kubernetes.io/instance": "cert-manager",
+                    "app.kubernetes.io/managed-by": "Helm",
+                    "app.kubernetes.io/name": "cert-manager",
+                    "helm.sh/chart": "cert-manager-v0.13.0"
+                },
+                "name": "cert-manager:leaderelection",
+                "namespace": "kube-system",
+                "resourceVersion": "2497",
+                "selfLink": "/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/roles/cert-manager:leaderelection",
+                "uid": "8f1fb562-f1f1-499d-bd01-0e88d4a021b4"
+            },
+            "rules": [
+                {
+                    "apiGroups": [
+                        ""
+                    ],
+                    "resources": [
+                        "configmaps"
+                    ],
+                    "verbs": [
+                        "get",
+                        "create",
+                        "update",
+                        "patch"
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "rbac.authorization.k8s.io/v1",
+            "kind": "Role",
+            "metadata": {
+                "annotations": {
+                    "rbac.authorization.kubernetes.io/autoupdate": "true"
+                },
+                "creationTimestamp": "2020-06-04T18:27:20Z",
+                "labels": {
+                    "kubernetes.io/bootstrapping": "rbac-defaults"
+                },
+                "name": "extension-apiserver-authentication-reader",
+                "namespace": "kube-system",
+                "resourceVersion": "130",
+                "selfLink": "/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/roles/extension-apiserver-authentication-reader",
+                "uid": "0c3d569b-e7a9-43ea-9a0b-2c4b76136339"
+            },
+            "rules": [
+                {
+                    "apiGroups": [
+                        ""
+                    ],
+                    "resourceNames": [
+                        "extension-apiserver-authentication"
+                    ],
+                    "resources": [
+                        "configmaps"
+                    ],
+                    "verbs": [
+                        "get",
+                        "list",
+                        "watch"
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "rbac.authorization.k8s.io/v1",
+            "kind": "Role",
+            "metadata": {
+                "annotations": {
+                    "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"rbac.authorization.k8s.io/v1\",\"kind\":\"Role\",\"metadata\":{\"annotations\":{},\"labels\":{\"addonmanager.kubernetes.io/mode\":\"Reconcile\",\"k8s-app\":\"kubernetes-dashboard\"},\"name\":\"kubernetes-dashboard-minimal\",\"namespace\":\"kube-system\"},\"rules\":[{\"apiGroups\":[\"\"],\"resourceNames\":[\"kubernetes-dashboard-key-holder\",\"kubernetes-dashboard-certs\",\"kubernetes-dashboard-csrf\"],\"resources\":[\"secrets\"],\"verbs\":[\"get\",\"update\",\"delete\"]},{\"apiGroups\":[\"\"],\"resourceNames\":[\"kubernetes-dashboard-settings\"],\"resources\":[\"configmaps\"],\"verbs\":[\"get\",\"update\"]},{\"apiGroups\":[\"\"],\"resourceNames\":[\"heapster\",\"dashboard-metrics-scraper\"],\"resources\":[\"services\"],\"verbs\":[\"proxy\"]},{\"apiGroups\":[\"\"],\"resourceNames\":[\"heapster\",\"http:heapster:\",\"https:heapster:\",\"dashboard-metrics-scraper\",\"http:dashboard-metrics-scraper\"],\"resources\":[\"services/proxy\"],\"verbs\":[\"get\"]}]}\n"
+                },
+                "creationTimestamp": "2020-06-04T18:27:42Z",
+                "labels": {
+                    "addonmanager.kubernetes.io/mode": "Reconcile",
+                    "k8s-app": "kubernetes-dashboard"
+                },
+                "name": "kubernetes-dashboard-minimal",
+                "namespace": "kube-system",
+                "resourceVersion": "475",
+                "selfLink": "/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/roles/kubernetes-dashboard-minimal",
+                "uid": "7eb839ab-115b-4071-9d39-d1d33aad566a"
+            },
+            "rules": [
+                {
+                    "apiGroups": [
+                        ""
+                    ],
+                    "resourceNames": [
+                        "kubernetes-dashboard-key-holder",
+                        "kubernetes-dashboard-certs",
+                        "kubernetes-dashboard-csrf"
+                    ],
+                    "resources": [
+                        "secrets"
+                    ],
+                    "verbs": [
+                        "get",
+                        "update",
+                        "delete"
+                    ]
+                },
+                {
+                    "apiGroups": [
+                        ""
+                    ],
+                    "resourceNames": [
+                        "kubernetes-dashboard-settings"
+                    ],
+                    "resources": [
+                        "configmaps"
+                    ],
+                    "verbs": [
+                        "get",
+                        "update"
+                    ]
+                },
+                {
+                    "apiGroups": [
+                        ""
+                    ],
+                    "resourceNames": [
+                        "heapster",
+                        "dashboard-metrics-scraper"
+                    ],
+                    "resources": [
+                        "services"
+                    ],
+                    "verbs": [
+                        "proxy"
+                    ]
+                },
+                {
+                    "apiGroups": [
+                        ""
+                    ],
+                    "resourceNames": [
+                        "heapster",
+                        "http:heapster:",
+                        "https:heapster:",
+                        "dashboard-metrics-scraper",
+                        "http:dashboard-metrics-scraper"
+                    ],
+                    "resources": [
+                        "services/proxy"
+                    ],
+                    "verbs": [
+                        "get"
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "rbac.authorization.k8s.io/v1",
+            "kind": "Role",
+            "metadata": {
+                "annotations": {
+                    "rbac.authorization.kubernetes.io/autoupdate": "true"
+                },
+                "creationTimestamp": "2020-06-04T18:27:20Z",
+                "labels": {
+                    "kubernetes.io/bootstrapping": "rbac-defaults"
+                },
+                "name": "system::leader-locking-kube-controller-manager",
+                "namespace": "kube-system",
+                "resourceVersion": "134",
+                "selfLink": "/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/roles/system::leader-locking-kube-controller-manager",
+                "uid": "803774b2-4c42-4877-bf7c-aa863e18635e"
+            },
+            "rules": [
+                {
+                    "apiGroups": [
+                        ""
+                    ],
+                    "resources": [
+                        "configmaps"
+                    ],
+                    "verbs": [
+                        "watch"
+                    ]
+                },
+                {
+                    "apiGroups": [
+                        ""
+                    ],
+                    "resourceNames": [
+                        "kube-controller-manager"
+                    ],
+                    "resources": [
+                        "configmaps"
+                    ],
+                    "verbs": [
+                        "get",
+                        "update"
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "rbac.authorization.k8s.io/v1",
+            "kind": "Role",
+            "metadata": {
+                "annotations": {
+                    "rbac.authorization.kubernetes.io/autoupdate": "true"
+                },
+                "creationTimestamp": "2020-06-04T18:27:20Z",
+                "labels": {
+                    "kubernetes.io/bootstrapping": "rbac-defaults"
+                },
+                "name": "system::leader-locking-kube-scheduler",
+                "namespace": "kube-system",
+                "resourceVersion": "135",
+                "selfLink": "/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/roles/system::leader-locking-kube-scheduler",
+                "uid": "5c481458-3f9d-49e1-ae03-462e8c2b69d7"
+            },
+            "rules": [
+                {
+                    "apiGroups": [
+                        ""
+                    ],
+                    "resources": [
+                        "configmaps"
+                    ],
+                    "verbs": [
+                        "watch"
+                    ]
+                },
+                {
+                    "apiGroups": [
+                        ""
+                    ],
+                    "resourceNames": [
+                        "kube-scheduler"
+                    ],
+                    "resources": [
+                        "configmaps"
+                    ],
+                    "verbs": [
+                        "get",
+                        "update"
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "rbac.authorization.k8s.io/v1",
+            "kind": "Role",
+            "metadata": {
+                "annotations": {
+                    "rbac.authorization.kubernetes.io/autoupdate": "true"
+                },
+                "creationTimestamp": "2020-06-04T18:27:20Z",
+                "labels": {
+                    "kubernetes.io/bootstrapping": "rbac-defaults"
+                },
+                "name": "system:controller:bootstrap-signer",
+                "namespace": "kube-system",
+                "resourceVersion": "131",
+                "selfLink": "/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/roles/system:controller:bootstrap-signer",
+                "uid": "75dda4b1-3d1f-48b4-b3f0-24abb4114d2c"
+            },
+            "rules": [
+                {
+                    "apiGroups": [
+                        ""
+                    ],
+                    "resources": [
+                        "secrets"
+                    ],
+                    "verbs": [
+                        "get",
+                        "list",
+                        "watch"
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "rbac.authorization.k8s.io/v1",
+            "kind": "Role",
+            "metadata": {
+                "annotations": {
+                    "rbac.authorization.kubernetes.io/autoupdate": "true"
+                },
+                "creationTimestamp": "2020-06-04T18:27:20Z",
+                "labels": {
+                    "kubernetes.io/bootstrapping": "rbac-defaults"
+                },
+                "name": "system:controller:cloud-provider",
+                "namespace": "kube-system",
+                "resourceVersion": "132",
+                "selfLink": "/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/roles/system:controller:cloud-provider",
+                "uid": "2d3a0002-46f0-4dcd-9729-5b0a3916e486"
+            },
+            "rules": [
+                {
+                    "apiGroups": [
+                        ""
+                    ],
+                    "resources": [
+                        "configmaps"
+                    ],
+                    "verbs": [
+                        "create",
+                        "get",
+                        "list",
+                        "watch"
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "rbac.authorization.k8s.io/v1",
+            "kind": "Role",
+            "metadata": {
+                "annotations": {
+                    "rbac.authorization.kubernetes.io/autoupdate": "true"
+                },
+                "creationTimestamp": "2020-06-04T18:27:20Z",
+                "labels": {
+                    "kubernetes.io/bootstrapping": "rbac-defaults"
+                },
+                "name": "system:controller:token-cleaner",
+                "namespace": "kube-system",
+                "resourceVersion": "133",
+                "selfLink": "/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/roles/system:controller:token-cleaner",
+                "uid": "64dd78a7-6694-489e-b37e-006b9fc3f396"
+            },
+            "rules": [
+                {
+                    "apiGroups": [
+                        ""
+                    ],
+                    "resources": [
+                        "secrets"
+                    ],
+                    "verbs": [
+                        "delete",
+                        "get",
+                        "list",
+                        "watch"
+                    ]
+                },
+                {
+                    "apiGroups": [
+                        "",
+                        "events.k8s.io"
+                    ],
+                    "resources": [
+                        "events"
+                    ],
+                    "verbs": [
+                        "create",
+                        "patch",
+                        "update"
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "rbac.authorization.k8s.io/v1",
+            "kind": "Role",
+            "metadata": {
+                "annotations": {
+                    "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"rbac.authorization.k8s.io/v1\",\"kind\":\"Role\",\"metadata\":{\"annotations\":{},\"labels\":{\"addonmanager.kubernetes.io/mode\":\"Reconcile\",\"kubernetes.io/cluster-service\":\"true\"},\"name\":\"typha-cpha\",\"namespace\":\"kube-system\"},\"rules\":[{\"apiGroups\":[\"\"],\"resources\":[\"configmaps\"],\"verbs\":[\"get\"]},{\"apiGroups\":[\"extensions\",\"apps\"],\"resources\":[\"deployments/scale\"],\"verbs\":[\"get\",\"update\"]}]}\n"
+                },
+                "creationTimestamp": "2020-06-04T18:27:40Z",
+                "labels": {
+                    "addonmanager.kubernetes.io/mode": "Reconcile",
+                    "kubernetes.io/cluster-service": "true"
+                },
+                "name": "typha-cpha",
+                "namespace": "kube-system",
+                "resourceVersion": "290",
+                "selfLink": "/apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/roles/typha-cpha",
+                "uid": "f1b1071d-cf42-4553-8113-d4e45edb6c0e"
+            },
+            "rules": [
+                {
+                    "apiGroups": [
+                        ""
+                    ],
+                    "resources": [
+                        "configmaps"
+                    ],
+                    "verbs": [
+                        "get"
+                    ]
+                },
+                {
+                    "apiGroups": [
+                        "extensions",
+                        "apps"
+                    ],
+                    "resources": [
+                        "deployments/scale"
+                    ],
+                    "verbs": [
+                        "get",
+                        "update"
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "rbac.authorization.k8s.io/v1",
+            "kind": "Role",
+            "metadata": {
+                "creationTimestamp": "2020-06-04T21:33:12Z",
+                "labels": {
+                    "app.kubernetes.io/instance": "mygrafana",
+                    "app.kubernetes.io/managed-by": "Helm",
+                    "app.kubernetes.io/name": "grafana",
+                    "app.kubernetes.io/version": "7.0.1",
+                    "helm.sh/chart": "grafana-5.1.2"
+                },
+                "name": "mygrafana",
+                "namespace": "monitoring",
+                "resourceVersion": "59148",
+                "selfLink": "/apis/rbac.authorization.k8s.io/v1/namespaces/monitoring/roles/mygrafana",
+                "uid": "28bd58d1-feda-42ca-a4fd-6e30b12db17e"
+            },
+            "rules": [
+                {
+                    "apiGroups": [
+                        "extensions"
+                    ],
+                    "resourceNames": [
+                        "mygrafana"
+                    ],
+                    "resources": [
+                        "podsecuritypolicies"
+                    ],
+                    "verbs": [
+                        "use"
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "rbac.authorization.k8s.io/v1",
+            "kind": "Role",
+            "metadata": {
+                "creationTimestamp": "2020-06-04T21:33:12Z",
+                "labels": {
+                    "app.kubernetes.io/instance": "mygrafana",
+                    "app.kubernetes.io/managed-by": "Helm",
+                    "app.kubernetes.io/name": "grafana",
+                    "app.kubernetes.io/version": "7.0.1",
+                    "helm.sh/chart": "grafana-5.1.2"
+                },
+                "name": "mygrafana-test",
+                "namespace": "monitoring",
+                "resourceVersion": "59147",
+                "selfLink": "/apis/rbac.authorization.k8s.io/v1/namespaces/monitoring/roles/mygrafana-test",
+                "uid": "6cdd9215-b3ad-43c9-a872-753921329946"
+            },
+            "rules": [
+                {
+                    "apiGroups": [
+                        "policy"
+                    ],
+                    "resourceNames": [
+                        "mygrafana-test"
+                    ],
+                    "resources": [
+                        "podsecuritypolicies"
+                    ],
+                    "verbs": [
+                        "use"
+                    ]
+                }
+            ]
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": "",
+        "selfLink": ""
+    }
+}

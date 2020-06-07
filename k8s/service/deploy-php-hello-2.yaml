@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-hello
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 1
+  revisionHistoryLimit: 4
+  paused: false
+  replicas: 8
+  minReadySeconds: 20
+  selector:
+    matchLabels:
+      role: web
+    matchExpressions:
+      - {key: version, operator: In, values: [v1, v2, v3]}
+  template:
+    metadata:
+      name: php-hello
+      labels:
+        app: php-hello
+        role: web
+        version: v2
+    spec:
+      containers:
+        - name: app
+          image: djkormo/php-hello:v2
+          ports:
+            - containerPort: 80
+              protocol: TCP
